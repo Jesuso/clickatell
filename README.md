@@ -1,4 +1,4 @@
-# Clickatell notifications channel for Laravel 5.3
+# Clickatell notifications channel for Laravel 5.5
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/laravel-notification-channels/clickatell.svg?style=flat-square)](https://packagist.org/packages/laravel-notification-channels/clickatell)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
@@ -10,7 +10,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/laravel-notification-channels/clickatell.svg?style=flat-square)](https://packagist.org/packages/laravel-notification-channels/clickatell)
 
 
-This package makes it easy to send notifications using [clickatell.com](https://www.clickatell.com/) with Laravel 5.3.
+This package makes it easy to send notifications using [clickatell.com](https://www.clickatell.com/) with Laravel 5.5.
 
 ## Contents
 
@@ -45,15 +45,13 @@ You must install the service provider:
 
 ### Setting up the clickatell service
 
-Add your Clickatell user, password and api identifier  to your `config/services.php`:
+Add your Clickatell token to your `config/services.php`:
 
 ```php
 // config/services.php
 ...
 'clickatell' => [
-    'user'  => env('CLICKATELL_USER'),
-    'pass' => env('CLICKATELL_PASS'),
-    'api_id' => env('CLICKATELL_API_ID'),
+    'token'  => env('CLICKATELL_TOKEN'),
 ],
 ...
 ```

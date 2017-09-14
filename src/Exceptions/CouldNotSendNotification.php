@@ -10,10 +10,10 @@ class CouldNotSendNotification extends \Exception
      *
      * @return static
      */
-    public static function serviceRespondedWithAnError($message, $code)
+    public static function serviceRespondedWithAnError($message)
     {
         return new static(
-            "Clickatell responded with an error '{$message}: {$code}'"
+            "Clickatell responded with an error: '{$message}'"
         );
     }
 }

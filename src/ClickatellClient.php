@@ -2,7 +2,7 @@
 
 namespace NotificationChannels\Clickatell;
 
-use Clickatell\Api\ClickatellHttp;
+use Clickatell\Rest as ClickatellRest;
 use NotificationChannels\Clickatell\Exceptions\CouldNotSendNotification;
 use stdClass;
 
@@ -20,16 +20,16 @@ class ClickatellClient
     const INTERNAL_ERROR = 901;
 
     /**
-     * @var ClickatellHttp
+     * @var ClickatellRest
      */
     private $clickatell;
 
     /**
-     * @param ClickatellHttp $clickatellHttp
+     * @param ClickatellRest $clickatellRest
      */
-    public function __construct(ClickatellHttp $clickatellHttp)
+    public function __construct(ClickatellRest $clickatellRest)
     {
-        $this->clickatell = $clickatellHttp;
+        $this->clickatell = $clickatellRest;
     }
 
     /**
@@ -40,7 +40,10 @@ class ClickatellClient
     {
         $to = collect($to)->toArray();
 
-        $response = $this->clickatell->sendMessage($to, $message);
+        $response = $this->clickatell->sendMessage([
+            'to' => $to,
+            'content' => $message
+        ]);
 
         $this->handleProviderResponses($response);
     }
@@ -51,13 +54,12 @@ class ClickatellClient
      */
     protected function handleProviderResponses(array $responses)
     {
-        collect($responses)->each(function (stdClass $response) {
-            $errorCode = (int) $response->errorCode;
+        collect($responses)->each(function (array $response) {
+            $error = $response['error'];
 
-            if ($errorCode != self::SUCCESSFUL_SEND) {
+            if ($error) {
                 throw CouldNotSendNotification::serviceRespondedWithAnError(
-                    (string) $response->error,
-                    $errorCode
+                    $response['error']
                 );
             }
         });
